@@ -13,11 +13,16 @@
 #######################################Redis####################
 REDIS_HOST = 'localhost'
 REDIS_PORT = 6379
-REDIS_PARAMS = {'password': 'wjhabc'}  # redis连接参数
-# REDIS_ENCODING = 'utf-8' # 默认
+# REDIS_URL = 'redis://root:wjhabc@localhost:6379' # 另一种连接方式，优先上面的配置
+
+# REDIS_ENCODING = 'utf-8' # 默认  其他'latin1'
+
+# 自定义redis连接参数
 # 默认参数{'socket_timeout': 30, 'socket_connect_timeout': 30, 
 #           'retry_on_timeout': True, 'encoding': REDIS_ENCODING}
-# REDIS_URL = 'redis://root:wjhabc@localhost:6379' # 另一种连接方式，优先上面的配置
+REDIS_PARAMS = {'password': 'wjhabc'}
+# 使用自定义的redis client 连接类
+# REDIS_PARAMS['redis_cls'] = 'myproject.RedisClient'
 
 #在redis中启用调度存储请求队列。
 SCHEDULER  =  "scrapy_redis.scheduler.Scheduler"
@@ -25,9 +30,36 @@ SCHEDULER  =  "scrapy_redis.scheduler.Scheduler"
 # 确保所有spider通过redis共享相同的重复过滤器
 DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"
 
+# Don't cleanup redis queues, allows to pause/resume crawls.
+#SCHEDULER_PERSIST = True
 
+# Schedule requests using a priority queue. (default)
+#SCHEDULER_QUEUE_CLASS = 'scrapy_redis.queue.PriorityQueue'
 
+# Alternative queues.
+#SCHEDULER_QUEUE_CLASS = 'scrapy_redis.queue.FifoQueue'
+#SCHEDULER_QUEUE_CLASS = 'scrapy_redis.queue.LifoQueue'
 
+# Max idle time to prevent the spider from being closed when distributed crawling.
+# This only works if queue class is SpiderQueue or SpiderStack,
+# and may also block the same time when your spider start at the first time (because the queue is empty).
+#SCHEDULER_IDLE_BEFORE_CLOSE = 10
+
+# The item pipeline serializes and stores the items in this redis key.
+#REDIS_ITEMS_KEY = '%(spider)s:items'
+
+# The items serializer is by default ScrapyJSONEncoder. You can use any
+# importable path to a callable object.
+#REDIS_ITEMS_SERIALIZER = 'json.dumps'
+
+# If True, it uses redis' ``SPOP`` operation. You have to use the ``SADD``
+# command to add URLs to the redis queue. This could be useful if you
+# want to avoid duplicates in your start urls list and the order of
+# processing does not matter.
+#REDIS_START_URLS_AS_SET = False
+
+# Default start urls key for RedisSpider and RedisCrawlSpider.
+#REDIS_START_URLS_KEY = '%(name)s:start_urls'
 #######################################Redis#####################
 
 
@@ -86,9 +118,10 @@ ROBOTSTXT_OBEY = False
 
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    'newspider.pipelines.NewspiderPipeline': 300,
-#}
+ITEM_PIPELINES = {
+    'scrapy_redis.pipelines.RedisPipeline': 300,
+    'newspider.pipelines.NewspiderPipeline': 300,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html
