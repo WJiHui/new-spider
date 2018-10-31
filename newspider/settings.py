@@ -20,7 +20,7 @@ REDIS_PORT = 6379
 # 自定义redis连接参数
 # 默认参数{'socket_timeout': 30, 'socket_connect_timeout': 30, 
 #           'retry_on_timeout': True, 'encoding': REDIS_ENCODING}
-REDIS_PARAMS = {'password': 'wjhabc'}
+REDIS_PARAMS = {'password': 'xxxxxx'}
 # 使用自定义的redis client 连接类
 # REDIS_PARAMS['redis_cls'] = 'myproject.RedisClient'
 
