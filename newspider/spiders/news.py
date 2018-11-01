@@ -27,15 +27,15 @@ class NewsSpider(scrapy.Spider):
         website = response.meta['website']
         spider = spider_factory(website)
         spider.response = response
-        spider.run()
-        
-        for category, title_url_dict in spider.new_dict.items():
+        # spider.run()
+       
+        new_dict = {'redian': {'toutiao1': 'url1', 'toutiao2': 'url2'}}
+        for category, title_url_dict in new_dict.items():
             for title, url in title_url_dict.items():
                 item = NewspiderItem()
                 item['website'] = website 
                 item['category'] = category 
-                item['link'] = title 
+                item['title'] = title 
                 item['url'] = url 
                 # item['posttime'] = None 
-                yield 
-        
+                yield item         
