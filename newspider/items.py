@@ -10,7 +10,7 @@ import scrapy
 
 class NewspiderItem(scrapy.Item):
     # define the fields for your item here like:
-    website = scrapy.Field()
+    site = scrapy.Field()
     title = scrapy.Field()
     url = scrapy.Field()
     article = scrapy.Field()

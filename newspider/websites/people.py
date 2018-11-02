@@ -3,6 +3,7 @@ from __future__ import print_function
 import requests 
 from bs4 import BeautifulSoup
 
+
 class SpiderBase(object):
     def __init__(self):
         self.parser = 'html5lib' # html.parser lxml lxml-xml
