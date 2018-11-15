@@ -18,7 +18,9 @@ env = dotenv.Dotenv(os.path.expanduser('~/.env'))
 # ****** ITEM_PIPELINES 加上 'scrapy_redis.pipelines.RedisPipeline': 300
 REDIS_HOST = env.get('REDIS_HOST') or 'localhost'
 REDIS_PORT = env.get('REDIS_PORT') or '6379'
-# REDIS_URL = 'redis://user:password@host:post'  # 另一种连接方式，优先上面的配置
+
+# REDIS_URL = 'redis://user:password@host:post'
+#  另一种连接方式，优先上面的配置
 
 # REDIS_ENCODING = 'utf-8' 
 # 默认  其他'latin1'
@@ -28,9 +30,9 @@ REDIS_PARAMS = {'password': env.get('REDIS_PASSWORD')}
 # 默认参数{'socket_timeout': 30, 'socket_connect_timeout': 30, 
 #           'retry_on_timeout': True, 'encoding': REDIS_ENCODING}
 
-
 # REDIS_PARAMS['redis_cls'] = 'myproject.RedisClient'
 # 使用自定义的redis client 连接类, 默认：redis.StrictRedis
+
 
 SCHEDULER = "scrapy_redis.scheduler.Scheduler"
 # 在redis中启用调度存储请求队列。
