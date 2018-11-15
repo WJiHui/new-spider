@@ -16,10 +16,9 @@ env = dotenv.Dotenv(os.path.expanduser('~/.env'))
 
 # ************************Redis Start ******************************
 # ****** ITEM_PIPELINES 加上 'scrapy_redis.pipelines.RedisPipeline': 300
-REDIS_HOST = '47.89.190.88'
-REDIS_PORT = 6379
-# REDIS_URL = 'redis://root:wjhabc@localhost:6379'
-# 另一种连接方式，优先上面的配置
+REDIS_HOST = env.get('REDIS_HOST') or 'localhost'
+REDIS_PORT = env.get('REDIS_PORT') or '6379'
+# REDIS_URL = 'redis://user:password@host:post'  # 另一种连接方式，优先上面的配置
 
 # REDIS_ENCODING = 'utf-8' 
 # 默认  其他'latin1'
