@@ -28,7 +28,6 @@ def walk_modules(path):
 
 def _iter_command_classes(module_name):
     # TODO: add `name` attribute to commands and and merge this function with
-    # scrapy.utils.spider.iter_spider_classes
     for module in walk_modules(module_name):
         for obj in vars(module).values():
             if inspect.isclass(obj) and issubclass(obj, object) and obj.__module__ == module.__name__:
@@ -38,9 +37,11 @@ def _iter_command_classes(module_name):
 def _get_commands_from_module(module):
     d = {}
     for cmd in _iter_command_classes(module):
-        cmdname = cmd.__module__.split('.')[-1]
-        d[cmdname] = cmd
+        cmd_name = cmd.__module__.split('.')[-1]
+        d[cmd_name] = cmd
     return d
 
+
 if __name__ == '__main__':
-    print _get_commands_from_module("scrapy.commands")
+    # print _get_commands_from_module("scrapy.commands")
+    print _get_commands_from_module("newspider.websites")
