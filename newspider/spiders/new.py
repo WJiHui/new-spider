@@ -15,7 +15,11 @@ class NewsSpider(scrapy.Spider):
     name = 'new'
     allowed_domains = []
     start_urls = {'people': 'http://www.people.com.cn/'}
-
+    # custom_settings = {
+    #     'ITEM_PIPELINES': {'pipelineClass1': 300,
+    #                        'pipelineClass2': 400},
+    # }
+    
     def start_requests(self):
         for site, url in self.start_urls.items():
             request = scrapy.Request(url=url, callback=self.parse, errback=None)
